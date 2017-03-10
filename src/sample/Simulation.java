@@ -123,7 +123,7 @@ public class Simulation {
 						chain[n-1][k]=1;
 						isolations++;
 					}
-				}//TODO Niezrobione
+				}
 				else if(chainSize-(n+1)<=chainSize-1&chainSize-(n+1)>=1&k==0){
 					if(chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]&chain[n][k+1]==chain[n+1][k]){
 						chain[n][k]=1;
@@ -136,8 +136,9 @@ public class Simulation {
 						isolations++;
 					}
 				}
-				//TODO Dodać opcje gdy izolacja będzie w górnym/dolnym łańcuchu
-				
+				//TODO Dodać opcje gdy izolacja będzie w elemencie nad/pod bierzącym
+				//TODO Pozamieniać else if na if (bo może więcej niż jedna sytuacja zajść w tej samej iteracji)
+				//TODO Jeszcze raz przejrzeć wszystkie ifowe warunki, jest błąd w >= i <=
 			}
 			isolationsTable[i]=isolations;
 			/**for(int j=0; j<numberChains; j++){
