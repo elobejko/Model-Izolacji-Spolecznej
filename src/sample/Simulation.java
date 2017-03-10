@@ -70,6 +70,6 @@ public class Simulation {
 		}
 	}
 	public static void main(String[] args) {
-        Simulation simulacja = new Simulation(10,2);
+        Simulation simulacja = new Simulation(15,2);
     }
 }
