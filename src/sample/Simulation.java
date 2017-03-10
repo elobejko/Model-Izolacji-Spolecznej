@@ -31,20 +31,20 @@ public class Simulation {
 		}
 		opinions=numberOpinions;
 		int isolations=0;
-		int numberTry=0; //Liczba prób znalezienia pustego elementu ³añcucha.
-						 //Je¿eli prób bêdzie za du¿o, zostanie wybrany pierwszy pusty
+		int numberTry=0; //Liczba prÃ³b znalezienia pustego elementu Å‚aÅ„cucha.
+						 //JeÅ¼eli prÃ³b bÄ™dzie za duÅ¼o, zostanie wybrany pierwszy pusty
 		for(int i=0; i<chainSize*numberChains; i++){
-			int n=rand.nextInt(chainSize); //Losuj element, który bêdzie zape³niony
+			int n=rand.nextInt(chainSize); //Losuj element, ktÃ³ry bÄ™dzie zapeÅ‚niony
 			int k=0;
 			if(numberChains>1)
-				k=rand.nextInt(numberChains); //Losuj ³añcuch
-			if (chain[n][k]>=1){ //Je¿eli wylosowany jest ju¿ zajêty element, spróbuj ponownie (max 10 razy)
+				k=rand.nextInt(numberChains); //Losuj Å‚aÅ„cuch
+			if (chain[n][k]>=1){ //JeÅ¼eli wylosowany jest juÅ¼ zajÄ™ty element, sprÃ³buj ponownie (max 10 razy)
 				if (numberTry<10){
 					i--;
 					numberTry++;
 					continue;
 				}
-				else{ //Je¿eli nadal nie wylosowano pustego, weŸ pierwszy z brzega
+				else{ //JeÅ¼eli nadal nie wylosowano pustego, weÅº pierwszy z brzega
 					for (int j=0; j<n; j++){
 						for (int l=0; l<k; l++){
 							if (chain[j][l]==0){
@@ -57,9 +57,9 @@ public class Simulation {
 				}
 			}
 			chain[n][k]=2+rand.nextInt(opinions);
-			//Sprawdzenie otoczenia - czy nastêpuje jakaœ izolacja
-			//Je¿eli opinia jest otoczona przez dwie inne (ale wzajemnie takie same), nastêpuje izolacja
-			if(numberChains==1){ //Pojedyñczy ³añcuch
+			//Sprawdzenie otoczenia - czy nastÄ™puje jakaÅ› izolacja
+			//JeÅ¼eli opinia jest otoczona przez dwie inne (ale wzajemnie takie same), nastÄ™puje izolacja
+			if(numberChains==1){ //PojedyÅ„czy Å‚aÅ„cuch
 				if(chainSize-(n+1)>=2){
 					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0){
 						chain[n+1][k]=1;
@@ -79,8 +79,8 @@ public class Simulation {
 					}
 				}
 			}
-			else{ //N - ³añcuchów 
-				//Przypadek w œrodku ³añcucha
+			else{ //N - Å‚aÅ„cuchÃ³w 
+				//Przypadek w Å›rodku Å‚aÅ„cucha
 				if(chainSize-(n+1)>=2&numberChains-(k+1)<=1&numberChains-(k+1)>=numberChains-1){
 					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0&chain[n+1][k+1]==chain[n+1][k-1]){
 						chain[n+1][k]=1;
@@ -99,7 +99,7 @@ public class Simulation {
 						isolations++;
 					}
 				}
-				//Przypadek na granicznych ³añcuchach
+				//Przypadek na granicznych Å‚aÅ„cuchach
 				else if(chainSize-(n+1)>=2&k==0){
 					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0&chain[n+1][k+1]==chain[n+2][k]){
 						chain[n+1][k]=1;
@@ -136,7 +136,7 @@ public class Simulation {
 						isolations++;
 					}
 				}
-				//TODO Dodaæ opcje gdy izolacja bêdzie w górnym/dolnym ³añcuchu
+				//TODO DodaÄ‡ opcje gdy izolacja bÄ™dzie w gÃ³rnym/dolnym Å‚aÅ„cuchu
 				
 			}
 			isolationsTable[i]=isolations;
@@ -152,9 +152,9 @@ public class Simulation {
 	
 	public File fileChooser(){
 		JFileChooser chooser = new JFileChooser(); // Stworzenie klasy
-        chooser.setDialogTitle("Zapisywanie wyników"); // Ustawienie tytu³u okienka
-        int result = chooser.showDialog(null, "Zapisz"); //Otwarcie okienka. Metoda ta blokuje siê do czasu wybrania pliku lub zamkniêcia okna
-        if (JFileChooser.APPROVE_OPTION == result){ //Jeœli u¿ytkownik wybra³ plik
+        chooser.setDialogTitle("Zapisywanie wynikÃ³w"); // Ustawienie tytuÅ‚u okienka
+        int result = chooser.showDialog(null, "Zapisz"); //Otwarcie okienka. Metoda ta blokuje siÄ™ do czasu wybrania pliku lub zamkniÄ™cia okna
+        if (JFileChooser.APPROVE_OPTION == result){ //JeÅ›li uÅ¼ytkownik wybraÅ‚ plik
         	return chooser.getSelectedFile();
         }
         else {
