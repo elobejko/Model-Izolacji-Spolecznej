@@ -66,8 +66,8 @@ public class Controller {
 
     @FXML
     public void InitChart(){
-       // Simulation symulacja = new Simulation(elementsNumber,opinionsNumber,dimensionsNumber);
-        Simulation symulacja = new Simulation(1000,2,1);
+        Simulation symulacja = new Simulation(elementsNumber,opinionsNumber,dimensionsNumber);
+        //Simulation symulacja = new Simulation(1000,2,1);
         ObservableList<XYChart.Data<Integer, Integer>> lineChartData;
         lineChartData = FXCollections.observableArrayList();
         ObservableList<XYChart.Series<Integer, Integer>> lineChartSeries;
@@ -76,7 +76,8 @@ public class Controller {
 
         for(int t=0; t<elementsNumber; t++)
         {
-            y=symulacja.isolationsTable[t];
+            y=2*t;
+           // y=symulacja.isolationsTable[t];
             lineChartData.add(new LineChart.Data(t,y));
         }
         lineChartSeries.add(new LineChart.Series(lineChartData));
@@ -85,7 +86,7 @@ public class Controller {
     }
 
     @FXML
-    void exportAction() {
+    void ExportAction() {
         image = lineChart.snapshot(new SnapshotParameters(), null);
         file = new File("chart.png");
         try {

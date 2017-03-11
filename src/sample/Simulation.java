@@ -185,8 +185,8 @@ public class Simulation {
 		}
 	}
 	
-	public static void main(String[] args) {
-        Simulation symulacja = new Simulation(100000,2,10);
-        symulacja.save();
-    }
+	//public static void main(String[] args) {
+      //  Simulation symulacja = new Simulation(100000,2,10);
+       // symulacja.save();
+   // }
 }
