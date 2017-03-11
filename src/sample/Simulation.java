@@ -38,24 +38,30 @@ public class Simulation {
 			int k=0;
 			if(numberChains>1)
 				k=rand.nextInt(numberChains); //Losuj łańcuch
-			if (chain[n][k]>=1){ //Jeżeli wylosowany jest już zajęty element, spróbuj ponownie (max 10 razy)
+			if (chain[n][k]>0){ //Jeżeli wylosowany jest już zajęty element, spróbuj ponownie (max 10 razy)
 				if (numberTry<10){
 					i--;
 					numberTry++;
 					continue;
 				}
 				else{ //Jeżeli nadal nie wylosowano pustego, weź pierwszy z brzega
-					for (int j=0; j<n; j++){
-						for (int l=0; l<k; l++){
+					for (int j=0; j<=n; j++){
+						for (int l=0; l<=k; l++){
 							if (chain[j][l]==0){
 								n=j;
 								numberTry=0;
+								System.out.print("Po probach wybrano miejsce: ");
+								System.out.println(n);
 								break;
 							}
 						}
+						if(numberTry==0)
+							break;
 					}
 				}
 			}
+			else
+				numberTry=0;
 			chain[n][k]=2+rand.nextInt(opinions);
 			//Sprawdzenie otoczenia - czy następuje jakaś izolacja
 			//Jeżeli opinia jest otoczona przez dwie inne (ale wzajemnie takie same), następuje izolacja
@@ -66,14 +72,14 @@ public class Simulation {
 						isolations++;
 					}
 				}
-				else if(chainSize-(n+1)<=chainSize-2){
+				if(n>1){
 					if(chain[n][k]==chain[n-2][k]&chain[n-1][k]!=chain[n][k]&chain[n-1][k]!=0){
 						chain[n-1][k]=1;
 						isolations++;
 					}
 				}
-				else if(chainSize-(n+1)<=chainSize-1&chainSize-(n+1)>=1){
-					if(chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]){
+				if(n>0&chainSize-(n+1)>=1){
+					if(chain[n+1][k]!=0&chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]){
 						chain[n][k]=1;
 						isolations++;
 					}
@@ -181,7 +187,7 @@ public class Simulation {
 	}
 	
 	public static void main(String[] args) {
-        Simulation symulacja = new Simulation(10000,2,3);
+        Simulation symulacja = new Simulation(10,3,1);
         symulacja.save();
     }
 }
