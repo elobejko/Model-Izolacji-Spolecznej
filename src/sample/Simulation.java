@@ -30,17 +30,17 @@ public class Simulation {
 		}
 		opinions=numberOpinions;
 		int isolations=0;
-		int numberTry=0; //Liczba prób znalezienia pustego elementu ³añcucha.
-						 //Je¿eli prób bêdzie za du¿o, zostanie wybrany pierwszy pusty
+		int numberTry=0; //Liczba prï¿½b znalezienia pustego elementu ï¿½aï¿½cucha.
+						 //Jeï¿½eli prï¿½b bï¿½dzie za duï¿½o, zostanie wybrany pierwszy pusty
 		for(int i=0; i<chainSize; i++){
-			int n=rand.nextInt(chainSize-1); //Losuj element, który bêdzie zape³niony
-			if (chain[n]>=1){ //Je¿eli wylosowany jest ju¿ zajêty element, spróbuj ponownie (max 10 razy)
+			int n=rand.nextInt(chainSize-1); //Losuj element, ktï¿½ry bï¿½dzie zapeï¿½niony
+			if (chain[n]>=1){ //Jeï¿½eli wylosowany jest juï¿½ zajï¿½ty element, sprï¿½buj ponownie (max 10 razy)
 				if (numberTry>10){
 					i--;
 					numberTry++;
 					continue;
 				}
-				else{ //Je¿eli nadal nie wylosowano pustego, weŸ pierwszy z brzega
+				else{ //Jeï¿½eli nadal nie wylosowano pustego, weï¿½ pierwszy z brzega
 					for (int j=0; j<n; j++){
 						if (chain[j]==0){
 							n=j;
@@ -51,8 +51,8 @@ public class Simulation {
 				}
 			}
 			chain[n]=2+rand.nextInt(opinions);
-			//Sprawdzenie otoczenia - czy nastêpuje jakaœ izolacja
-			//Je¿eli opinia jest otoczona przez dwie inne (ale wzajemnie takie same), nastêpuje izolacja
+			//Sprawdzenie otoczenia - czy nastï¿½puje jakaï¿½ izolacja
+			//Jeï¿½eli opinia jest otoczona przez dwie inne (ale wzajemnie takie same), nastï¿½puje izolacja
 			if(chainSize-(n+1)>=2){
 				if(chain[n]==chain[n+2]&chain[n+1]!=chain[n]&chain[n+1]!=0){
 					chain[n+1]=1;
@@ -77,9 +77,9 @@ public class Simulation {
 	
 	public File fileChooser(){
 		JFileChooser chooser = new JFileChooser(); // Stworzenie klasy
-        chooser.setDialogTitle("Zapisywanie wyników"); // Ustawienie tytu³u okienka
-        int result = chooser.showDialog(null, "Zapisz"); //Otwarcie okienka. Metoda ta blokuje siê do czasu wybrania pliku lub zamkniêcia okna
-        if (JFileChooser.APPROVE_OPTION == result){ //Jeœli u¿ytkownik wybra³ plik
+        chooser.setDialogTitle("Zapisywanie wynikï¿½w"); // Ustawienie tytuï¿½u okienka
+        int result = chooser.showDialog(null, "Zapisz"); //Otwarcie okienka. Metoda ta blokuje siï¿½ do czasu wybrania pliku lub zamkniï¿½cia okna
+        if (JFileChooser.APPROVE_OPTION == result){ //Jeï¿½li uï¿½ytkownik wybraï¿½ plik
         	return chooser.getSelectedFile();
         }
         else {
@@ -104,8 +104,8 @@ public class Simulation {
 		}
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
         Simulation symulacja = new Simulation(1000,2);
         symulacja.save();
-    }
+    }*/
 }

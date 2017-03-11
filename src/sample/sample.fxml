@@ -11,7 +11,7 @@
     <children>
         <HBox prefHeight="330.0" prefWidth="624.0">
             <children>
-                <LineChart prefHeight="362.0" prefWidth="408.0">
+                <LineChart fx:id="lineChart" prefHeight="325.0" prefWidth="504.0" title="Wykres">
                     <xAxis>
                         <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -22,40 +22,28 @@
                         <Insets left="100.0" />
                     </HBox.margin>
                 </LineChart>
-            </children>
-        </HBox>
-        <HBox prefHeight="160.0" prefWidth="624.0">
-            <children>
-            <TextField fx:id="elements" promptText="Liczba elementów">
-               <HBox.margin>
-                  <Insets left="50.0" top="70.0" />
-               </HBox.margin>
-            </TextField>
-            <TextField fx:id="opinions" promptText="Liczba opinii">
-               <HBox.margin>
-                  <Insets top="70.0" />
-               </HBox.margin>
-            </TextField>
-            <TextField promptText="LIczba wymiarów">
-               <HBox.margin>
-                  <Insets top="70.0" />
-               </HBox.margin>
-            </TextField>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox prefHeight="319.0" prefWidth="106.0">
                <children>
-                  <Button mnemonicParsing="false" text="Button">
+                  <Button fx:id="startButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="80.0" text="Start">
                      <VBox.margin>
-                        <Insets left="20.0" top="20.0" />
+                        <Insets left="10.0" top="50.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Button">
+                  <Button fx:id="exportButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Export">
                      <VBox.margin>
-                        <Insets left="20.0" top="20.0" />
+                        <Insets left="10.0" top="50.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="refreshChartButton" mnemonicParsing="false" prefHeight="42.0" prefWidth="87.0" text="Odśwież">
+                     <VBox.margin>
+                        <Insets left="10.0" top="50.0" />
                      </VBox.margin>
                   </Button>
                </children>
             </VBox>
             </children>
+        </HBox>
+        <HBox prefHeight="149.0" prefWidth="706.0">
             <VBox.margin>
                 <Insets />
             </VBox.margin>
