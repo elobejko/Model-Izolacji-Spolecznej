@@ -24,12 +24,12 @@
                 </LineChart>
             <VBox prefHeight="319.0" prefWidth="106.0">
                <children>
-                  <Button fx:id="startButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="80.0" text="Start">
+                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#InitChart" prefHeight="39.0" prefWidth="80.0" text="Start">
                      <VBox.margin>
                         <Insets left="10.0" top="50.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="exportButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Export">
+                  <Button fx:id="exportButton" mnemonicParsing="false" onAction="#ExportAction" prefHeight="39.0" prefWidth="85.0" text="Export">
                      <VBox.margin>
                         <Insets left="10.0" top="50.0" />
                      </VBox.margin>
@@ -48,17 +48,17 @@
                 <Insets />
             </VBox.margin>
          <children>
-            <TextField fx:id="elements" promptText="Liczba elementów">
+            <TextField fx:id="elements" onAction="#setElementsNumber" promptText="Liczba elementów">
                <HBox.margin>
                   <Insets left="100.0" top="50.0" />
                </HBox.margin>
             </TextField>
-            <TextField fx:id="opinions" promptText="Liczba opini">
+            <TextField fx:id="opinions" onAction="#setOpinionsNumber" promptText="Liczba opini">
                <HBox.margin>
                   <Insets top="50.0" />
                </HBox.margin>
             </TextField>
-            <TextField fx:id="dimNumber" promptText="Liczba wymiarów">
+            <TextField fx:id="dimNumber" onAction="#setDimNumber" promptText="Liczba wymiarów">
                <HBox.margin>
                   <Insets top="50.0" />
                </HBox.margin>
