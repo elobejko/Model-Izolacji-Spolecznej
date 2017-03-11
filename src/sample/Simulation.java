@@ -50,8 +50,6 @@ public class Simulation {
 							if (chain[j][l]==0){
 								n=j;
 								numberTry=0;
-								System.out.print("Po probach wybrano miejsce: ");
-								System.out.println(n);
 								break;
 							}
 						}
@@ -87,57 +85,57 @@ public class Simulation {
 			}
 			else{ //N - łańcuchów 
 				//Przypadek w środku łańcucha
-				if(chainSize-(n+1)>=2&numberChains-(k+1)<=1&numberChains-(k+1)>=numberChains-1){
+				if(chainSize-(n+1)>=2&numberChains-(k+1)>=1&k>0){
 					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0&chain[n+1][k+1]==chain[n+1][k-1]){
 						chain[n+1][k]=1;
 						isolations++;
 					}
 				}
-				else if(chainSize-(n+1)<=chainSize-2&numberChains-(k+1)<=1&numberChains-(k+1)>=numberChains-1){
+				if(n>1&numberChains-(k+1)>=1&k>0){
 					if(chain[n][k]==chain[n-2][k]&chain[n-1][k]!=chain[n][k]&chain[n-1][k]!=0&chain[n-1][k+1]==chain[n-1][k-1]){
 						chain[n-1][k]=1;
 						isolations++;
 					}
 				}
-				else if(chainSize-(n+1)<=chainSize-1&chainSize-(n+1)>=1&numberChains-(k+1)<=1&numberChains-(k+1)>=numberChains-1){
-					if(chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]&chain[n][k+1]==chain[n][k-1]){
+				if(n>0&chainSize-(n+1)>=1&numberChains-(k+1)>=1&k>0){
+					if(chain[n+1][k]!=0&chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]&chain[n][k+1]==chain[n][k-1]){
 						chain[n][k]=1;
 						isolations++;
 					}
 				}
 				//Przypadek na granicznych łańcuchach
-				else if(chainSize-(n+1)>=2&k==0){
+				if(chainSize-(n+1)>=2&k==0){
 					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0&chain[n+1][k+1]==chain[n+2][k]){
 						chain[n+1][k]=1;
 						isolations++;
 					}
 				}
-				else if(chainSize-(n+1)>=2&k==numberChains-1){
+				if(chainSize-(n+1)>=2&k==numberChains-1){
 					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0&chain[n+1][k-1]==chain[n+2][k]){
 						chain[n+1][k]=1;
 						isolations++;
 					}
 				}
-				else if(chainSize-(n+1)<=chainSize-2&k==0){
+				if(n>1&k==0){
 					if(chain[n][k]==chain[n-2][k]&chain[n-1][k]!=chain[n][k]&chain[n-1][k]!=0&chain[n-1][k+1]==chain[n-2][k]){
 						chain[n-1][k]=1;
 						isolations++;
 					}
 				}
-				else if(chainSize-(n+1)<=chainSize-2&k==numberChains-1){
+				if(n>1&k==numberChains-1){
 					if(chain[n][k]==chain[n-2][k]&chain[n-1][k]!=chain[n][k]&chain[n-1][k]!=0&chain[n-1][k-1]==chain[n-2][k]){
 						chain[n-1][k]=1;
 						isolations++;
 					}
 				}
-				else if(chainSize-(n+1)<=chainSize-1&chainSize-(n+1)>=1&k==0){
-					if(chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]&chain[n][k+1]==chain[n+1][k]){
+				if(n>0&chainSize-(n+1)>=2&k==0){
+					if(chain[n+1][k]!=0&chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]&chain[n][k+1]==chain[n+1][k]){
 						chain[n][k]=1;
 						isolations++;
 					}
 				}
-				else if(chainSize-(n+1)<=chainSize-1&chainSize-(n+1)>=1&k==numberChains-1){
-					if(chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]&chain[n][k-1]==chain[n+1][k]){
+				if(n>0&chainSize-(n+1)>=2&k==numberChains-1){
+					if(chain[n+1][k]!=0&chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]&chain[n][k-1]==chain[n+1][k]){
 						chain[n][k]=1;
 						isolations++;
 					}
@@ -147,6 +145,7 @@ public class Simulation {
 				//TODO Jeszcze raz przejrzeć wszystkie ifowe warunki, jest błąd w >= i <=
 			}
 			isolationsTable[i]=isolations;
+			//Tylko do podgladu dla malych lancuchow!
 			/**for(int j=0; j<numberChains; j++){
 				for(int l=0; l<chainSize; l++){
 					System.out.print(chain[l][j]);
@@ -187,7 +186,7 @@ public class Simulation {
 	}
 	
 	public static void main(String[] args) {
-        Simulation symulacja = new Simulation(10,3,1);
+        Simulation symulacja = new Simulation(100000,2,10);
         symulacja.save();
     }
 }
