@@ -6,6 +6,32 @@ import java.io.PrintWriter;
 import java.util.Random;
 import javax.swing.JFileChooser;
 
+/**
+ * 
+ * @author Jacek Piłka
+ *
+ */
+
+/**
+ * 
+ * Symulacja modelu izolacji spolecznej w N-połączonych łańcuchach (siatce).
+ * 
+ * Opis:
+ * Opinie losowo pojawiają się na łańcuchu (siatce), z każdą iteracją kolejna.
+ * Jeżeli jedna opinia zostanie otoczona przez inne (ale wzajemnie identyczne), to następuje izolacja.
+ * Opinia izolowana nie może już wpływać na resztę łańcucha (siatki).
+ * 
+ * Przykład:
+ * 
+ * 0 0 0 0 0
+ * 2 0 0 0 0
+ * 2 0 0 3 0
+ * 2 0 0 3 2
+ * 2 0 2 1 2 <-- Izolacja
+ * 2 2 2 1 2 <-- Koniec
+ * 
+ */
+
 public class Simulation {
 	
 	/**
@@ -64,19 +90,19 @@ public class Simulation {
 			//Sprawdzenie otoczenia - czy następuje jakaś izolacja
 			//Jeżeli opinia jest otoczona przez dwie inne (ale wzajemnie takie same), następuje izolacja
 			if(numberChains==1){ //Pojedyńczy łańcuch
-				if(chainSize-(n+1)>=2){
+				if(chainSize-(n+1)>=2){//Izolacja w n+1
 					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0){
 						chain[n+1][k]=1;
 						isolations++;
 					}
 				}
-				if(n>1){
+				if(n>1){//Izolacja w n-1
 					if(chain[n][k]==chain[n-2][k]&chain[n-1][k]!=chain[n][k]&chain[n-1][k]!=0){
 						chain[n-1][k]=1;
 						isolations++;
 					}
 				}
-				if(n>0&chainSize-(n+1)>=1){
+				if(n>0&chainSize-(n+1)>=1){//Izolacja w n
 					if(chain[n+1][k]!=0&chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]){
 						chain[n][k]=1;
 						isolations++;
@@ -85,26 +111,38 @@ public class Simulation {
 			}
 			else{ //N - łańcuchów 
 				//Przypadek w środku łańcucha
-				if(chainSize-(n+1)>=2&numberChains-(k+1)>=1&k>0){
+				if(chainSize-(n+1)>=2&numberChains-(k+1)>=1&k>0){//Izolacja w n+1
 					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0&chain[n+1][k+1]==chain[n+1][k-1]){
 						chain[n+1][k]=1;
 						isolations++;
 					}
 				}
-				if(n>1&numberChains-(k+1)>=1&k>0){
+				if(n>1&numberChains-(k+1)>=1&k>0){//Izolacja w n-1
 					if(chain[n][k]==chain[n-2][k]&chain[n-1][k]!=chain[n][k]&chain[n-1][k]!=0&chain[n-1][k+1]==chain[n-1][k-1]){
 						chain[n-1][k]=1;
 						isolations++;
 					}
 				}
-				if(n>0&chainSize-(n+1)>=1&numberChains-(k+1)>=1&k>0){
+				if(n>0&chainSize-(n+1)>=1&numberChains-(k+1)>=2){//Izolacja w k+1
+					if(chain[n][k]==chain[n][k+2]&chain[n+1][k+1]==chain[n-1][k+1]&chain[n][k+1]!=0){
+						chain[n][k+1]=1;
+						isolations++;
+					}
+				}
+				if(n>0&chainSize-(n+1)>=1&k>1){//Izolacja w k-1
+					if(chain[n][k]==chain[n][k-2]&chain[n+1][k-1]==chain[n-1][k-1]&chain[n][k-1]!=0){
+						chain[n][k-1]=1;
+						isolations++;
+					}
+				}
+				if(n>0&chainSize-(n+1)>=1&numberChains-(k+1)>=1&k>0){//Izolacja w n
 					if(chain[n+1][k]!=0&chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]&chain[n][k+1]==chain[n][k-1]){
 						chain[n][k]=1;
 						isolations++;
 					}
 				}
 				//Przypadek na granicznych łańcuchach
-				if(chainSize-(n+1)>=2&k==0){
+				if(chainSize-(n+1)>=2&k==0){//Izolacja w n+1
 					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0&chain[n+1][k+1]==chain[n+2][k]){
 						chain[n+1][k]=1;
 						isolations++;
@@ -116,7 +154,7 @@ public class Simulation {
 						isolations++;
 					}
 				}
-				if(n>1&k==0){
+				if(n>1&k==0){//Izolacja w n-1
 					if(chain[n][k]==chain[n-2][k]&chain[n-1][k]!=chain[n][k]&chain[n-1][k]!=0&chain[n-1][k+1]==chain[n-2][k]){
 						chain[n-1][k]=1;
 						isolations++;
@@ -128,7 +166,7 @@ public class Simulation {
 						isolations++;
 					}
 				}
-				if(n>0&chainSize-(n+1)>=2&k==0){
+				if(n>0&chainSize-(n+1)>=2&k==0){//Izolacja w n
 					if(chain[n+1][k]!=0&chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]&chain[n][k+1]==chain[n+1][k]){
 						chain[n][k]=1;
 						isolations++;
@@ -140,9 +178,6 @@ public class Simulation {
 						isolations++;
 					}
 				}
-				//TODO Dodać opcje gdy izolacja będzie w elemencie nad/pod bierzącym
-				//TODO Pozamieniać else if na if (bo może więcej niż jedna sytuacja zajść w tej samej iteracji)
-				//TODO Jeszcze raz przejrzeć wszystkie ifowe warunki, jest błąd w >= i <=
 			}
 			isolationsTable[i]=isolations;
 			//Tylko do podgladu dla malych lancuchow!
@@ -155,7 +190,7 @@ public class Simulation {
 			System.out.println(i);**/
 		}
 	}
-	
+	//TODO Opcjonalnie do przerzucenia do innej klasy, ale może być i tutaj
 	public File fileChooser(){
 		JFileChooser chooser = new JFileChooser(); // Stworzenie klasy
         chooser.setDialogTitle("Zapisywanie wyników"); // Ustawienie tytułu okienka
@@ -184,9 +219,9 @@ public class Simulation {
 			e1.printStackTrace();
 		}
 	}
-	
+	//TODO Do usunięcia po zrobieniu interfejsu
 	public static void main(String[] args) {
-        Simulation symulacja = new Simulation(100000,2,10);
+        Simulation symulacja = new Simulation(10000,2,10);
         symulacja.save();
     }
 }
