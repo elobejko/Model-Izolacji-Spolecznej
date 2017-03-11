@@ -47,6 +47,23 @@
             <VBox.margin>
                 <Insets />
             </VBox.margin>
+         <children>
+            <TextField fx:id="elements" promptText="Liczba elementów">
+               <HBox.margin>
+                  <Insets left="100.0" top="50.0" />
+               </HBox.margin>
+            </TextField>
+            <TextField fx:id="opinions" promptText="Liczba opini">
+               <HBox.margin>
+                  <Insets top="50.0" />
+               </HBox.margin>
+            </TextField>
+            <TextField fx:id="dimNumber" promptText="Liczba wymiarów">
+               <HBox.margin>
+                  <Insets top="50.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
         </HBox>
     </children>
 </VBox>
