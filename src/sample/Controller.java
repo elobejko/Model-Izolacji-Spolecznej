@@ -1,3 +1,4 @@
+
 package sample;
 
 import javafx.collections.FXCollections;
@@ -67,7 +68,7 @@ public class Controller {
     @FXML
     public void InitChart(){
        // Simulation symulacja = new Simulation(elementsNumber,opinionsNumber);
-        Simulation symulacja = new Simulation(1000,2,2);
+        Simulation symulacja = new Simulation(1000,2,5);
         ObservableList<XYChart.Data<Integer, Integer>> lineChartData;
         lineChartData = FXCollections.observableArrayList();
         ObservableList<XYChart.Series<Integer, Integer>> lineChartSeries;
