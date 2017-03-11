@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
-
 import javax.swing.JFileChooser;
 
 public class Simulation {
@@ -16,70 +15,152 @@ public class Simulation {
 	 * 2,3,4... - opinions
 	 */
 	
-	public static int[] chain;
+	public static int[][] chain;
 	public static int[] isolationsTable;
 	int opinions=0;
 	
 	Random rand = new Random();
 	
-	public Simulation(int chainSize, int numberOpinions) {
-		chain=new int[chainSize];
-		isolationsTable=new int[chainSize];
+	public Simulation(int chainSize, int numberOpinions, int numberChains) {
+		chain=new int[chainSize][numberChains];
+		isolationsTable=new int[chainSize*numberChains];
 		for(int i=0; i<chainSize; i++){
-			chain[i]=0;
+			for(int j=0; j<numberChains; j++){
+				chain[i][j]=0;
+			}
 		}
 		opinions=numberOpinions;
 		int isolations=0;
-		int numberTry=0; //Liczba pr�b znalezienia pustego elementu �a�cucha.
-						 //Je�eli pr�b b�dzie za du�o, zostanie wybrany pierwszy pusty
-		for(int i=0; i<chainSize; i++){
-			int n=rand.nextInt(chainSize-1); //Losuj element, kt�ry b�dzie zape�niony
-			if (chain[n]>=1){ //Je�eli wylosowany jest ju� zaj�ty element, spr�buj ponownie (max 10 razy)
-				if (numberTry>10){
+		int numberTry=0; //Liczba prób znalezienia pustego elementu łańcucha.
+						 //Jeżeli prób będzie za dużo, zostanie wybrany pierwszy pusty
+		for(int i=0; i<chainSize*numberChains; i++){
+			int n=rand.nextInt(chainSize); //Losuj element, który będzie zapełniony
+			int k=0;
+			if(numberChains>1)
+				k=rand.nextInt(numberChains); //Losuj łańcuch
+			if (chain[n][k]>0){ //Jeżeli wylosowany jest już zajęty element, spróbuj ponownie (max 10 razy)
+				if (numberTry<10){
 					i--;
 					numberTry++;
 					continue;
 				}
-				else{ //Je�eli nadal nie wylosowano pustego, we� pierwszy z brzega
-					for (int j=0; j<n; j++){
-						if (chain[j]==0){
-							n=j;
-							numberTry=0;
-							break;
+				else{ //Jeżeli nadal nie wylosowano pustego, weź pierwszy z brzega
+					for (int j=0; j<=n; j++){
+						for (int l=0; l<=k; l++){
+							if (chain[j][l]==0){
+								n=j;
+								numberTry=0;
+								break;
+							}
 						}
+						if(numberTry==0)
+							break;
 					}
 				}
 			}
-			chain[n]=2+rand.nextInt(opinions);
-			//Sprawdzenie otoczenia - czy nast�puje jaka� izolacja
-			//Je�eli opinia jest otoczona przez dwie inne (ale wzajemnie takie same), nast�puje izolacja
-			if(chainSize-(n+1)>=2){
-				if(chain[n]==chain[n+2]&chain[n+1]!=chain[n]&chain[n+1]!=0){
-					chain[n+1]=1;
-					isolations++;
+			else
+				numberTry=0;
+			chain[n][k]=2+rand.nextInt(opinions);
+			//Sprawdzenie otoczenia - czy następuje jakaś izolacja
+			//Jeżeli opinia jest otoczona przez dwie inne (ale wzajemnie takie same), następuje izolacja
+			if(numberChains==1){ //Pojedyńczy łańcuch
+				if(chainSize-(n+1)>=2){
+					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0){
+						chain[n+1][k]=1;
+						isolations++;
+					}
+				}
+				if(n>1){
+					if(chain[n][k]==chain[n-2][k]&chain[n-1][k]!=chain[n][k]&chain[n-1][k]!=0){
+						chain[n-1][k]=1;
+						isolations++;
+					}
+				}
+				if(n>0&chainSize-(n+1)>=1){
+					if(chain[n+1][k]!=0&chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]){
+						chain[n][k]=1;
+						isolations++;
+					}
 				}
 			}
-			else if(chainSize-(n+1)<=chainSize-2){
-				if(chain[n]==chain[n-2]&chain[n-1]!=chain[n]&chain[n-1]!=0){
-					chain[n-1]=1;
-					isolations++;
+			else{ //N - łańcuchów 
+				//Przypadek w środku łańcucha
+				if(chainSize-(n+1)>=2&numberChains-(k+1)>=1&k>0){
+					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0&chain[n+1][k+1]==chain[n+1][k-1]){
+						chain[n+1][k]=1;
+						isolations++;
+					}
 				}
-			}
-			else if(chainSize-(n+1)<=chainSize-1&chainSize-(n+1)>=1){
-				if(chain[n+1]==chain[n-2]&chain[n+1]!=chain[n]){
-					chain[n]=1;
-					isolations++;
+				if(n>1&numberChains-(k+1)>=1&k>0){
+					if(chain[n][k]==chain[n-2][k]&chain[n-1][k]!=chain[n][k]&chain[n-1][k]!=0&chain[n-1][k+1]==chain[n-1][k-1]){
+						chain[n-1][k]=1;
+						isolations++;
+					}
 				}
+				if(n>0&chainSize-(n+1)>=1&numberChains-(k+1)>=1&k>0){
+					if(chain[n+1][k]!=0&chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]&chain[n][k+1]==chain[n][k-1]){
+						chain[n][k]=1;
+						isolations++;
+					}
+				}
+				//Przypadek na granicznych łańcuchach
+				if(chainSize-(n+1)>=2&k==0){
+					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0&chain[n+1][k+1]==chain[n+2][k]){
+						chain[n+1][k]=1;
+						isolations++;
+					}
+				}
+				if(chainSize-(n+1)>=2&k==numberChains-1){
+					if(chain[n][k]==chain[n+2][k]&chain[n+1][k]!=chain[n][k]&chain[n+1][k]!=0&chain[n+1][k-1]==chain[n+2][k]){
+						chain[n+1][k]=1;
+						isolations++;
+					}
+				}
+				if(n>1&k==0){
+					if(chain[n][k]==chain[n-2][k]&chain[n-1][k]!=chain[n][k]&chain[n-1][k]!=0&chain[n-1][k+1]==chain[n-2][k]){
+						chain[n-1][k]=1;
+						isolations++;
+					}
+				}
+				if(n>1&k==numberChains-1){
+					if(chain[n][k]==chain[n-2][k]&chain[n-1][k]!=chain[n][k]&chain[n-1][k]!=0&chain[n-1][k-1]==chain[n-2][k]){
+						chain[n-1][k]=1;
+						isolations++;
+					}
+				}
+				if(n>0&chainSize-(n+1)>=2&k==0){
+					if(chain[n+1][k]!=0&chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]&chain[n][k+1]==chain[n+1][k]){
+						chain[n][k]=1;
+						isolations++;
+					}
+				}
+				if(n>0&chainSize-(n+1)>=2&k==numberChains-1){
+					if(chain[n+1][k]!=0&chain[n+1][k]==chain[n-1][k]&chain[n+1][k]!=chain[n][k]&chain[n][k-1]==chain[n+1][k]){
+						chain[n][k]=1;
+						isolations++;
+					}
+				}
+				//TODO Dodać opcje gdy izolacja będzie w elemencie nad/pod bierzącym
+				//TODO Pozamieniać else if na if (bo może więcej niż jedna sytuacja zajść w tej samej iteracji)
+				//TODO Jeszcze raz przejrzeć wszystkie ifowe warunki, jest błąd w >= i <=
 			}
 			isolationsTable[i]=isolations;
+			//Tylko do podgladu dla malych lancuchow!
+			/**for(int j=0; j<numberChains; j++){
+				for(int l=0; l<chainSize; l++){
+					System.out.print(chain[l][j]);
+				}
+				System.out.println();
+			}
+			System.out.println(i);**/
 		}
 	}
 	
 	public File fileChooser(){
 		JFileChooser chooser = new JFileChooser(); // Stworzenie klasy
-        chooser.setDialogTitle("Zapisywanie wynik�w"); // Ustawienie tytu�u okienka
-        int result = chooser.showDialog(null, "Zapisz"); //Otwarcie okienka. Metoda ta blokuje si� do czasu wybrania pliku lub zamkni�cia okna
-        if (JFileChooser.APPROVE_OPTION == result){ //Je�li u�ytkownik wybra� plik
+        chooser.setDialogTitle("Zapisywanie wyników"); // Ustawienie tytułu okienka
+        int result = chooser.showDialog(null, "Zapisz"); //Otwarcie okienka. Metoda ta blokuje się do czasu wybrania pliku lub zamknięcia okna
+        if (JFileChooser.APPROVE_OPTION == result){ //Jeśli użytkownik wybrał plik
         	return chooser.getSelectedFile();
         }
         else {
@@ -105,7 +186,7 @@ public class Simulation {
 	}
 	
 	public static void main(String[] args) {
-        Simulation symulacja = new Simulation(1000,2);
+        Simulation symulacja = new Simulation(100000,2,10);
         symulacja.save();
     }
 }
