@@ -11,12 +11,12 @@
     <children>
         <HBox prefHeight="330.0" prefWidth="624.0">
             <children>
-                <LineChart fx:id="lineChart" prefHeight="325.0" prefWidth="504.0" title="Wykres">
+                <LineChart fx:id="lineChart" alternativeColumnFillVisible="true" legendVisible="false" prefHeight="325.0" prefWidth="504.0" style="-fx-background-color: #FFFFFF;" HBox.hgrow="ALWAYS">
                     <xAxis>
-                        <CategoryAxis side="BOTTOM" />
+                        <NumberAxis label="Czas" side="BOTTOM" />
                     </xAxis>
                     <yAxis>
-                        <NumberAxis side="LEFT" />
+                        <NumberAxis label="Zablokowane opinie" side="LEFT" />
                     </yAxis>
                     <HBox.margin>
                         <Insets left="100.0" />

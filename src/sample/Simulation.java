@@ -220,8 +220,8 @@ public class Simulation {
 		}
 	}
 	//TODO Do usunięcia po zrobieniu interfejsu
-	public static void main(String[] args) {
-		Simulation symulacja = new Simulation(10000,2,10);
-		symulacja.save();
-	}
+	//public static void main(String[] args) {
+	//	Simulation symulacja = new Simulation(10000,2,10);
+	//	symulacja.save();
+	//}
 }
