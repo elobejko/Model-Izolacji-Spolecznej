@@ -68,6 +68,7 @@ public class Controller {
     public void InitChart(){
         Simulation symulacja = new Simulation(elementsNumber,opinionsNumber,dimensionsNumber);
         //Simulation symulacja = new Simulation(1000,2,1);
+
         ObservableList<XYChart.Data<Integer, Integer>> lineChartData;
         lineChartData = FXCollections.observableArrayList();
         ObservableList<XYChart.Series<Integer, Integer>> lineChartSeries;
