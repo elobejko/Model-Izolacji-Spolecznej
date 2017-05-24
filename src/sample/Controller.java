@@ -17,13 +17,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class Controller {
-    int cos;
-
-
-    int elementsNumber;
-    int opinionsNumber;
-    int dimensionsNumber;
-    char el;
 
     @FXML
     TextField elements;
@@ -38,19 +31,24 @@ public class Controller {
     @FXML
     Button refreshChartButton;
     @FXML
-    LineChart<Integer, Integer> lineChart;
+    LineChart<Integer,Integer> lineChart;
     File file;
     WritableImage image;
 
+    int elementsNumber;
+    int opinionsNumber;
+    int dimensionsNumber;
+
     @FXML
     void initialize(){
-        lineChart.setTitle("Ilość zablokowanych elementów");
+        lineChart.setTitle("Ilość zablokowanych opini w funkcji czasu");
+       // lineChart.set;
         exportButton.setText("Eksportuj");
         refreshChartButton.setText("Odśwież wykres");
         startButton.setText("Start");
 
     }
-
+    
     @FXML
     void setElementsNumber(){
         elementsNumber = Integer.parseInt(elements.getText());
@@ -66,19 +64,25 @@ public class Controller {
 
     @FXML
     public void InitChart(){
-        Simulation symulacja = new Simulation(elementsNumber,opinionsNumber,dimensionsNumber);
-        //Simulation symulacja = new Simulation(1000,2,1);
+     //   int eln=elementsNumber;
+       // int optn=opinionsNumber;
+       // int dnum=dimensionsNumber;
+        //Simulation symulacja = new Simulation(eln,optn,dnum);
+        //Simulation symulacja = new Simulation(100,2,1);
+        int x=0;
+        int y;
         ObservableList<XYChart.Data<Integer, Integer>> lineChartData;
         lineChartData = FXCollections.observableArrayList();
         ObservableList<XYChart.Series<Integer, Integer>> lineChartSeries;
         lineChartSeries= FXCollections.observableArrayList();
-        int y;
-
-        for(int t=0; t<elementsNumber; t++)
+          while (x <= 100)
         {
-            y=2*t;
-           // y=symulacja.isolationsTable[t];
-            lineChartData.add(new LineChart.Data(t,y));
+            y=2*x;
+
+            //y=symulacja.isolationsTable[x];
+            //y=2*x;
+            lineChartData.add(new LineChart.Data(x,y));
+            x++;
         }
         lineChartSeries.add(new LineChart.Series(lineChartData));
         lineChart.setData(lineChartSeries);

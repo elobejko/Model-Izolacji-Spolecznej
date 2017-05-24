@@ -7,12 +7,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <children>
         <HBox prefHeight="330.0" prefWidth="624.0">
             <children>
-                <LineChart prefHeight="308.0" prefWidth="408.0">
+                <LineChart fx:id="lineChart" prefHeight="325.0" prefWidth="504.0" title="Wykres">
                     <xAxis>
                         <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -23,40 +22,48 @@
                         <Insets left="100.0" />
                     </HBox.margin>
                 </LineChart>
+            <VBox prefHeight="319.0" prefWidth="106.0">
+               <children>
+                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#InitChart" prefHeight="39.0" prefWidth="80.0" text="Start">
+                     <VBox.margin>
+                        <Insets left="10.0" top="50.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="exportButton" mnemonicParsing="false" onAction="#ExportAction" prefHeight="39.0" prefWidth="85.0" text="Export">
+                     <VBox.margin>
+                        <Insets left="10.0" top="50.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="refreshChartButton" mnemonicParsing="false" prefHeight="42.0" prefWidth="87.0" text="Odśwież">
+                     <VBox.margin>
+                        <Insets left="10.0" top="50.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
             </children>
         </HBox>
-        <HBox prefHeight="109.0" prefWidth="624.0">
-            <VBox.margin>
-                <Insets top="50.0" />
-            </VBox.margin>
-            <children>
-                <TextFlow prefHeight="133.0" prefWidth="624.0" />
-            </children>
-        </HBox>
-        <HBox prefHeight="103.0" prefWidth="624.0">
-            <children>
-                <ComboBox prefWidth="150.0" promptText="Liczba Próbek">
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
-                    <HBox.margin>
-                        <Insets left="30.0" top="40.0" />
-                    </HBox.margin>
-                </ComboBox>
-                <ComboBox prefWidth="150.0" promptText="Czas">
-                    <HBox.margin>
-                        <Insets left="60.0" top="40.0" />
-                    </HBox.margin>
-                </ComboBox>
-                <ComboBox prefWidth="150.0" promptText="Liczba wymiarów">
-                    <HBox.margin>
-                        <Insets left="50.0" top="40.0" />
-                    </HBox.margin>
-                </ComboBox>
-            </children>
+        <HBox prefHeight="149.0" prefWidth="706.0">
             <VBox.margin>
                 <Insets />
             </VBox.margin>
+         <children>
+            <TextField fx:id="elements" onAction="#setElementsNumber" promptText="Liczba elementów">
+               <HBox.margin>
+                  <Insets left="100.0" top="50.0" />
+               </HBox.margin>
+            </TextField>
+            <TextField fx:id="opinions" onAction="#setOpinionsNumber" promptText="Liczba opini">
+               <HBox.margin>
+                  <Insets top="50.0" />
+               </HBox.margin>
+            </TextField>
+            <TextField fx:id="dimNumber" onAction="#setDimNumber" promptText="Liczba wymiarów">
+               <HBox.margin>
+                  <Insets top="50.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
         </HBox>
     </children>
 </VBox>
